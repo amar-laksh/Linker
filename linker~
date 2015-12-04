@@ -1,0 +1,132 @@
+#!/bin/bash
+
+
+# ***********************************************************************************************************
+					# Function for the script header
+# ***********************************************************************************************************
+
+function header()	
+	{
+	echo "*********************************************************************"
+	echo "	       >>>Linker V.0.1 by Amar Lakshya<<<"
+	echo "*********************************************************************"
+	}
+
+
+# ***********************************************************************************************************
+					# Function to catalogue further from the http file
+# ***********************************************************************************************************
+
+function catalog()
+	{
+	if [ ! -d "/home/$USER/linker_files/catalog" ]; then
+		mkdir "/home/$USER/linker_files/catalog"
+	read -p "Enter the http/https file you saved: " second
+	cd '/home/'$USER'/linker_files/catalog/'
+	while read line
+	do
+	    wget -p  $line     
+	done < $th
+	}
+
+# ***********************************************************************************************************
+					# Function for the help menu
+# ***********************************************************************************************************
+function helptext()	
+	{
+	echo "***************************************************************"	
+        echo "Linker is a small bash script which inputs a web url and provides the user with the links in the web page source, It can also povide" 		echo "the user with the http urls in the page source. It can also be modified to output various elements of a web page. Hope the script" 		echo "helps :) "
+	echo "***************************************************************"	
+	}
+# ***********************************************************************************************************
+					# Function for the linking process
+# ***********************************************************************************************************
+
+
+function linkit()		
+	{
+	read -p "Enter your link to be searched: " link
+	echo " "
+	read -p "Enter file name for the links: " links
+	echo " "
+	echo "WORKING..."
+	sleep 1
+	echo "Creating database for linker..." 
+	sleep 1
+	echo "Searching links..."
+	wget -p --convert-links -r $link -o logfile # Creating the database for linker to search in
+	grep -o 'href=".*$'   $link/*.html | cut -d "\"" -f2 > $links # searching the database for links 
+	echo "The filename is already present please use another filename."	
+	clear
+	header	# calling function header	
+	echo "Done! :D"
+	echo "You have all the links of $link in the file: $links ! :D"
+	echo " "
+	read -p "Do you want to get the http links seperately?[y/n]: " inp
+	if [ $inp = y ] ; then
+	read -p "Enter the filename for the http links: " th
+	echo "Creating the list..."
+	sleep 1
+	grep -o 'htt.*$' $links > $th
+	read "Do you want to further search links in the http file? [y/n]: " catl
+	
+	if [ $catl = y ]; then
+	catalog
+	echo "Done! Thank you for using the linker!"	
+	else
+	echo "Done! Thank you for using the linker!"	
+	fi
+	else   
+	echo "Done! Thank you for using the linker!"
+	fi
+	}
+
+
+# ***********************************************************************************************************
+					# Bash script starts
+# ***********************************************************************************************************
+clear
+
+
+ if [ ! -d "/home/$USER/linker_files" ]; then
+	header	# calling function header	
+	echo " "
+	echo "Linker directory does not exits!"
+	echo "Creating linker directory, 'linker_files' in home directory of the user..." 
+	sleep 3
+  	mkdir '/home/'$USER'/linker_files' # Control will enter here if $DIRECTORY doesn't exist.
+fi
+
+
+cd '/home/'$USER'/linker_files'
+clear
+header	# calling function header	
+echo " "
+read -p "type 'h' for help, 'l' to start and any other character to exit: " first
+if [ $first = h ]; then
+		clear
+		header	    # calling function header
+		echo ""		 		
+		helptext    # calling function helptext	
+		echo " "	
+		read -p "type'l' to start and any other character to exit: " first		
+		clear
+		header	# calling function header
+		echo " "
+
+	if [ $first = l ]; then	
+		linkit   # calling function linkit
+	else 
+	echo "Thank you for using the script! :)"
+	fi
+	
+elif [ $first = l ]; then
+		linkit	# calling function linkit
+	else 
+		echo "Thank you for using the script! :)"
+fi
+
+# ***********************************************************************************************************
+					# Bash script ends
+# ***********************************************************************************************************
+

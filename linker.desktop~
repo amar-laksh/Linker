@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=0.1
+Type=Application
+Terminal=false
+Exec=/usr/bin/Aptana_Studio_3/AptanaStudio3
+Name=Linker
+Comment=Linker Web Application

@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=0.1
+Type=Application
+Terminal=true
+Exec=/home/amar/mac.sh
+Name=Linker
+Comment=Linker Web Application
+Icon=/usr/local/bin/links.jpg
+Name[en_IN]=Install linker
